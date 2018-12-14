@@ -1,0 +1,26 @@
+{
+    "name": "rodrigodesouza/autodeploy",
+    "description": "",
+    "authors": [
+        {
+            "name": "Rodrigo de Souza",
+            "email": "rd7.rodrigo@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bredi\\Autodeploy\\Providers\\AutodeployServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Bredi\\Autodeploy\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

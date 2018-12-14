@@ -1,0 +1,14 @@
+{
+    "name": "Autodeploy",
+    "alias": "autodeploy",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Autodeploy\\Providers\\AutodeployServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
