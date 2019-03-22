@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Autodeploy'
+    'name' => 'LaravelAutodeploy',
+    'branch' => env('AUTODEPLOY', 'production')
 ];

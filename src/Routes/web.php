@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('autodeploy')->group(function() {
-    Route::get('/', 'AutodeployController@index');
+Route::prefix('laravelautodeploy')->group(function() {
+    Route::get('/', 'LaravelAutodeployController@index');
 });

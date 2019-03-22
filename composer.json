@@ -1,5 +1,5 @@
 {
-    "name": "rodrigodesouza/laravel-autodeploy",
+    "name": "bredi/laravelautodeploy",
     "description": "",
     "authors": [
         {
@@ -7,13 +7,10 @@
             "email": "rd7.rodrigo@gmail.com"
         }
     ],
-    "require": {
-        "php": ">=5.6.0"
-    },
     "extra": {
         "laravel": {
             "providers": [
-                "Bredi\\Autodeploy\\Providers\\AutodeployServiceProvider"
+                "Bredi\\LaravelAutodeploy\\Providers\\LaravelAutodeployServiceProvider"
             ],
             "aliases": {
                 
@@ -22,8 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Bredi\\Autodeploy\\": "src/"
+            "Bredi\\LaravelAutodeploy\\": "src/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Bredi\Autodeploy\Database\Seeders;
+namespace Bredi\LaravelAutodeploy\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class AutodeployDatabaseSeeder extends Seeder
+class LaravelAutodeployDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

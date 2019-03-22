@@ -1,9 +1,9 @@
-@extends('autodeploy::layouts.master')
+@extends('laravelautodeploy::layouts.master')
 
 @section('content')
     <h1>Hello World</h1>
 
     <p>
-        This view is loaded from module: {!! config('autodeploy.name') !!}
+        This view is loaded from module: {!! config('laravelautodeploy.name') !!}
     </p>
 @stop

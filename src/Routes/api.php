@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/autodeploy', function (Request $request) {
 
 Route::match(['get', 'post'], '/webhook', [
 	'as' => 'site.index.webhook',
-	'uses' => 'AutodeployController@webhook',
+	'uses' => 'LaravelAutodeployController@webhook',
 ]);

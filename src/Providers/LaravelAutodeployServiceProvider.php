@@ -1,11 +1,11 @@
 <?php
 
-namespace Bredi\Autodeploy\Providers;
+namespace Bredi\LaravelAutodeploy\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class AutodeployServiceProvider extends ServiceProvider
+class LaravelAutodeployServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -46,10 +46,10 @@ class AutodeployServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('autodeploy.php'),
+            __DIR__.'/../Config/config.php' => config_path('laravelautodeploy.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'autodeploy'
+            __DIR__.'/../Config/config.php', 'laravelautodeploy'
         );
     }
 
@@ -60,7 +60,7 @@ class AutodeployServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/modules/autodeploy');
+        $viewPath = resource_path('views/modules/laravelautodeploy');
 
         $sourcePath = __DIR__.'/../Resources/views';
 
@@ -69,8 +69,8 @@ class AutodeployServiceProvider extends ServiceProvider
         ],'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/autodeploy';
-        }, \Config::get('view.paths')), [$sourcePath]), 'autodeploy');
+            return $path . '/modules/laravelautodeploy';
+        }, \Config::get('view.paths')), [$sourcePath]), 'laravelautodeploy');
     }
 
     /**
@@ -80,12 +80,12 @@ class AutodeployServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/autodeploy');
+        $langPath = resource_path('lang/modules/laravelautodeploy');
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'autodeploy');
+            $this->loadTranslationsFrom($langPath, 'laravelautodeploy');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'autodeploy');
+            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'laravelautodeploy');
         }
     }
 
