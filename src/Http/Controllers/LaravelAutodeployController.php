@@ -21,7 +21,7 @@ class LaravelAutodeployController extends Controller
 			$ramo = config('laravelautodeploy.branch');
 			if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $ramo) {
 				\Log::info($input);
-				// exec('cd ../ && git fetch --all && git reset --hard origin/' . $ramo);
+				exec('cd ../ && git fetch --all && git reset --hard origin/' . $ramo);
 				// \Log::info($a);
 				$commit_hash = shell_exec('cd ../ && git rev-parse --short HEAD');
 				\Log::info(array(" Deployed branch: {$ramo} Commit: " . $commit_hash));
