@@ -26,6 +26,9 @@ class LaravelAutodeployServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->commands([
+            \Bredi\LaravelAutodeploy\Console\AutodeployCommand::class,
+        ]);
     }
 
     /**
