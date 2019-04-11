@@ -14,3 +14,8 @@
 Route::prefix('laravelautodeploy')->group(function() {
     Route::get('/', 'LaravelAutodeployController@index');
 });
+
+Route::match(['get', 'post'], '/autodeploy/webhook', [
+	'as' => 'site.index.webhook',
+	'uses' => 'LaravelAutodeployController@webhook',
+]);
