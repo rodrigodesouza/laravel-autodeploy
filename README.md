@@ -1,6 +1,10 @@
-AUTODEPLOY //Ramo que deseja baixar atualizações; Padrão: production
+AUTODEPLOY //branch que deseja baixar atualizações; Padrão: production
 AUTODEPLOY=production, developer, master...
+DEPLOY_DE=//branch de trabalho. padrão: master
+DEPLOY_PARA=//branch para enviar o deploy. padrão production
 
+comando para fazer um deploy:
+php artisan deploy:push "mensagem do commit obrigatório" --to=//Opcional. coloque o nome do branch que deseja enviar este deploy. padrão: production
 
 criando a chave ssh no gitlab
 

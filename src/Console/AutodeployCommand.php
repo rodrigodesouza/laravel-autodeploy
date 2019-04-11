@@ -13,7 +13,7 @@ class AutodeployCommand extends Command
      *
      * @var string
      */
-    protected $name = 'command:name';
+    protected $name = 'deploy:push {example} {--to=}';
 
     /**
      * The console command description.
@@ -39,7 +39,26 @@ class AutodeployCommand extends Command
      */
     public function handle()
     {
-        echo "aqui";
+        // echo "aqui" . $this->argument('commit');
+        // $this->info("Building ". $this->argument('commit'), $this->option('to'));
+        // $options = $this->options();
+        // $this->info(print_r($options));
+        // $this->info($this->option('to'));
+        // $commit_hash = shell_exec('cd ' . base_path() . ' && git status');
+
+        if (count(config('laravelautodeploy.commands')) > 0) {
+            foreach(config('laravelautodeploy.commands') as $command) {
+                $prefixo = "cd " . config('laravelautodeploy.folder_git');
+                $command = str_replace("{para}", $this->option('to'), $command);
+                $command = str_replace("{de}", config('laravelautodeploy.deploy_de'), $command);
+                $command = str_replace("{commit}", $this->argument('commit'), $command);
+                $command = $prefixo . " && " . $command;
+                $this->info('command: ' . $command);
+                echo shell_exec($command);
+    
+            }
+        }
+        
     }
 
     /**
@@ -50,7 +69,7 @@ class AutodeployCommand extends Command
     protected function getArguments()
     {
         return [
-            ['example', InputArgument::REQUIRED, 'An example argument.'],
+            ['commit', InputArgument::REQUIRED, 'A descricão do commit.'],
         ];
     }
 
@@ -62,7 +81,7 @@ class AutodeployCommand extends Command
     protected function getOptions()
     {
         return [
-            ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
+            ['to', null, InputOption::VALUE_OPTIONAL, 'An example option.', config('laravelautodeploy.deploy_para')],
         ];
     }
 }
