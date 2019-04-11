@@ -13,7 +13,7 @@ class AutodeployCommand extends Command
      *
      * @var string
      */
-    protected $name = 'deploy:push {example} {--to=}';
+    protected $name = 'deploy:push {example?} {--to=}';
 
     /**
      * The console command description.
@@ -39,38 +39,37 @@ class AutodeployCommand extends Command
      */
     public function handle()
     {
-        // echo "aqui" . $this->argument('commit');
-        // $this->info("Building ". $this->argument('commit'), $this->option('to'));
-        // $options = $this->options();
-        // $this->info(print_r($options));
-        // $this->info($this->option('to'));
-        // $commit_hash = shell_exec('cd ' . base_path() . ' && git status');
+        $commit = $this->argument('commit');
+
+        if (!isset($commit) || !$commit) {
+            $commit = $this->ask('Qual a descrição do seu commit?');
+        }
 
         if (count(config('laravelautodeploy.commands.git')) > 0) {
+
             foreach(config('laravelautodeploy.commands.git') as $command) {
                 $prefixo = "cd " . config('laravelautodeploy.folder_git');
                 $command = str_replace("{para}", $this->option('to'), $command);
                 $command = str_replace("{de}", config('laravelautodeploy.deploy_de'), $command);
-                $command = str_replace("{commit}", $this->argument('commit'), $command);
+                $command = str_replace("{commit}", $commit, $command);
                 
                 $prefixo .= " && " . $command;
                 
-                $this->info('command: ' . $command);
+                $this->info('command: ' . $command . " (✓)");
                 
                 $shell =  shell_exec($prefixo);
 
                 echo $shell;
 
                 if (strstr($shell, 'CONFLICT')) {
-                    $this->error('Woops! Corrija o conflito e tente novamente.');
+                    $this->error('Woops! Corrija o conflito e tente novamente. (✖)');
                     break;
                 }
 
                 if (strstr($shell, 'rejected')) {
-                    $this->error('Woops! Aconteceu algum erro.');
+                    $this->error('Woops! Aconteceu algum erro. (✖)');
                     break;
                 }
-
     
             }
         }
@@ -85,7 +84,8 @@ class AutodeployCommand extends Command
     protected function getArguments()
     {
         return [
-            ['commit', InputArgument::REQUIRED, 'A descricão do commit.'],
+            ['commit', InputArgument::OPTIONAL, 'A descricão do commit.'],
+            // ['commit', InputArgument::REQUIRED, 'A descricão do commit.'],
         ];
     }
 
