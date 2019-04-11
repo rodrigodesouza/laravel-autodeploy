@@ -21,3 +21,8 @@ Route::match(['get', 'post'], '/webhook', [
 	'as' => 'site.index.webhook',
 	'uses' => 'LaravelAutodeployController@webhook',
 ]);
+
+// Route::match(['get', 'post'], '/autodeploy', [
+// 	'as' => 'site.index.webhook',
+// 	'uses' => 'LaravelAutodeployController@webhook',
+// ]);
