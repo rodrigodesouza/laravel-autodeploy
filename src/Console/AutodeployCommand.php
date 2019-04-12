@@ -45,9 +45,9 @@ class AutodeployCommand extends Command
             $commit = $this->ask('Qual a descrição do seu commit?');
         }
 
-        if (count(config('laravelautodeploy.commands.git')) > 0) {
+        if (count(config('laravelautodeploy.commands.local')) > 0) {
 
-            foreach(config('laravelautodeploy.commands.git') as $command) {
+            foreach(config('laravelautodeploy.commands.local') as $command) {
                 $prefixo = "cd " . config('laravelautodeploy.folder_git');
                 $command = str_replace("{para}", $this->option('to'), $command);
                 $command = str_replace("{de}", config('laravelautodeploy.deploy_de'), $command);

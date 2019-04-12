@@ -14,17 +14,30 @@ class LaravelAutodeployController extends Controller
 			
 		if ($request->isMethod('post')) {
 			
-			// $repo_dir = '../pasta.git';
-			// $web_root_dir = '../';
-			// $git_bin_path = 'git';
-			// $web_root_dir = '/home/sitebeta/www/logicomsite';
-			$ramo = config('laravelautodeploy.branch');
-			if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $ramo) {
-				\Log::info($input);
-				exec('cd ../ && git fetch --all && git reset --hard origin/' . $ramo);
-				// \Log::info($a);
-				$commit_hash = shell_exec('cd ../ && git rev-parse --short HEAD');
-				\Log::info(array(" Deployed branch: {$ramo} Commit: " . $commit_hash));
+			$branch = config('laravelautodeploy.branch');
+
+			if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $branch) {
+					\Log::info($input);
+					// exec('cd ../ && git fetch --all && git reset --hard origin/' . $branch); //original
+					// $commit_hash = shell_exec('cd ../ && git rev-parse --short HEAD'); //original
+					$arrCommand = [];
+					if (count(config('laravelautodeploy.commands.servidor')) > 0) {
+							foreach(config('laravelautodeploy.commands.servidor') as $command) {
+								
+								$command = str_replace("{branch}", $branch, $command);
+								
+								$prefixo = "cd " . config('laravelautodeploy.folder_git');
+								$command = $prefixo . " && " . $command;
+								echo $command . "<br>";
+								$arrCommand[] = $command;
+
+								$shell = shell_exec($command);
+								echo $shell . "<br>";
+								$arrCommand[] = $shell;
+							}
+
+							\Log::info($arrCommand);
+					}
 			}
 
 		} else {
