@@ -21,5 +21,9 @@
         "psr-4": {
             "Bredi\\LaravelAutodeploy\\": "src/"
         }
+    },
+    "require": {
+        "nunomaduro/laravel-desktop-notifier": "^2.1",
+        "nunomaduro/laravel-console-task": "^1.2"
     }
 }

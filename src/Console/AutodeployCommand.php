@@ -20,7 +20,7 @@ class AutodeployCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description.';
+    protected $description = 'Faz o commit no branch de trabalho e no branch de produção. Executa comandos Shell.';
 
     /**
      * Create a new command instance.
@@ -47,6 +47,9 @@ class AutodeployCommand extends Command
 
         if (count(config('laravelautodeploy.commands.local')) > 0) {
 
+            $errors = 0;
+            $msg    = "";
+
             foreach(config('laravelautodeploy.commands.local') as $command) {
                 $prefixo = "cd " . config('laravelautodeploy.folder_git');
                 $command = str_replace("{para}", $this->option('to'), $command);
@@ -55,22 +58,47 @@ class AutodeployCommand extends Command
                 
                 $prefixo .= " && " . $command;
                 
-                $this->info('command: ' . $command . " (✓)");
                 
-                $shell =  shell_exec($prefixo);
+                
+                // $shell =  shell_exec($prefixo);
+                // $shell =  "nada";
+                $shell =  "CONFLICT";
 
                 echo $shell;
 
                 if (strstr($shell, 'CONFLICT')) {
-                    $this->error('Woops! Corrija o conflito e tente novamente. (✖)');
+                    // $this->error('Woops! Corrija o conflito e tente novamente. (✖)');
+                    $this->task('Woops! Corrija o conflito e tente novamente.', function () {
+                        return false;
+                    });
+                    $errors += 1;
+                    $msg = "Corrija o conflito e tente novamente. (✖)";
                     break;
                 }
 
                 if (strstr($shell, 'rejected')) {
-                    $this->error('Woops! Aconteceu algum erro. (✖)');
+                    // $this->error('Woops! Aconteceu algum erro. (✖)');
+                    $this->task('Woops! Aconteceu algum erro.', function () {
+                        return false;
+                    });
+                    $errors += 1;
+                    $msg = "Aconteceu algum erro. (✖)";
                     break;
                 }
-    
+                
+                // $this->info('command: ' . $command . " (✓)");
+
+                $this->task('command: ' . $command, function () {
+                    return true;
+                });
+                
+            }
+
+            if ($errors == 0) {
+                $this->notify("Oba!", "Todos os processos foram concluidos!");
+            } else {
+                $this->notify("Woops!", $msg,  __DIR__ . "/../Resources/icons/error.png");
+                //, __DIR__ . "/../Resources/icons/error.png"
             }
         }
         
