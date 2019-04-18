@@ -23,7 +23,7 @@
         }
     },
     "require": {
-        "nunomaduro/laravel-desktop-notifier": "^2.1",
+        "jolicode/jolinotif": "^2.0",
         "nunomaduro/laravel-console-task": "^1.2"
     }
 }

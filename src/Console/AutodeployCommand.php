@@ -6,6 +6,9 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+use Joli\JoliNotif\Notification;
+use Joli\JoliNotif\NotifierFactory;
+
 class AutodeployCommand extends Command
 {
     /**
@@ -58,11 +61,8 @@ class AutodeployCommand extends Command
                 
                 $prefixo .= " && " . $command;
                 
-                
-                
-                // $shell =  shell_exec($prefixo);
-                // $shell =  "nada";
-                $shell =  "CONFLICT";
+                $shell =  shell_exec($prefixo);
+                // $shell =  "CONFLICT";
 
                 echo $shell;
 
@@ -94,12 +94,23 @@ class AutodeployCommand extends Command
                 
             }
 
+            // Create a Notifier
+            $notifier = NotifierFactory::create();
+
+            // Create your notification
+            $notification = (new Notification())->setTitle('Laravel Autodeploy');
+            
             if ($errors == 0) {
-                $this->notify("Oba!", "Todos os processos foram concluidos!");
+                // $this->notify("Oba!", "Todos os processos foram concluidos!");
+                $notification->setBody("Todos os processos foram concluidos!");
             } else {
-                $this->notify("Woops!", $msg,  __DIR__ . "/../Resources/icons/error.png");
+                // $this->notify("Woops!", $msg,  __DIR__ . "/../Resources/icons/error.png");
                 //, __DIR__ . "/../Resources/icons/error.png"
+                $notification->setBody($msg);
             }
+
+            $notifier->send($notification);
+            
         }
         
     }
