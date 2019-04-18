@@ -60,14 +60,13 @@ class AutodeployCommand extends Command
                 $command = str_replace("{commit}", $commit, $command);
                 
                 $prefixo .= " && " . $command;
-                
+
                 $shell =  shell_exec($prefixo);
                 // $shell =  "CONFLICT";
 
                 echo $shell;
 
                 if (strstr($shell, 'CONFLICT')) {
-                    // $this->error('Woops! Corrija o conflito e tente novamente. (✖)');
                     $this->task('Woops! Corrija o conflito e tente novamente.', function () {
                         return false;
                     });
@@ -77,7 +76,6 @@ class AutodeployCommand extends Command
                 }
 
                 if (strstr($shell, 'rejected')) {
-                    // $this->error('Woops! Aconteceu algum erro. (✖)');
                     $this->task('Woops! Aconteceu algum erro.', function () {
                         return false;
                     });
@@ -85,31 +83,32 @@ class AutodeployCommand extends Command
                     $msg = "Aconteceu algum erro. (✖)";
                     break;
                 }
-                
-                // $this->info('command: ' . $command . " (✓)");
-
+            
                 $this->task('command: ' . $command, function () {
                     return true;
                 });
                 
             }
 
-            // Create a Notifier
-            $notifier = NotifierFactory::create();
-
-            // Create your notification
-            $notification = (new Notification())->setTitle('Laravel Autodeploy');
             
-            if ($errors == 0) {
-                // $this->notify("Oba!", "Todos os processos foram concluidos!");
-                $notification->setBody("Todos os processos foram concluidos!");
-            } else {
-                // $this->notify("Woops!", $msg,  __DIR__ . "/../Resources/icons/error.png");
-                //, __DIR__ . "/../Resources/icons/error.png"
-                $notification->setBody($msg);
+            if (config('laravelautodeploy.desktop_notification')) {
+                // Create a Notifier
+                $notifier = NotifierFactory::create();
+    
+                // Create your notification
+                $notification = (new Notification())->setTitle('Laravel Autodeploy');
+                
+                if ($errors == 0) {
+                    // $this->notify("Oba!", "Todos os processos foram concluidos!");
+                    $notification->setBody("Todos os processos foram concluidos!");
+                } else {
+                    // $this->notify("Woops!", $msg,  __DIR__ . "/../Resources/icons/error.png");
+                    //, __DIR__ . "/../Resources/icons/error.png"
+                    $notification->setBody($msg);
+                }
+    
+                $notifier->send($notification);
             }
-
-            $notifier->send($notification);
             
         }
         
