@@ -62,6 +62,7 @@ class AutodeployCommand extends Command
                 $prefixo .= " && " . $command;
 
                 $shell =  shell_exec($prefixo);
+                // $shell =  "SUCCESS";
                 // $shell =  "CONFLICT";
 
                 echo $shell;
@@ -71,7 +72,7 @@ class AutodeployCommand extends Command
                         return false;
                     });
                     $errors += 1;
-                    $msg = "Corrija o conflito e tente novamente. (✖)";
+                    $msg = "Corrija o conflito e tente novamente.";
                     break;
                 }
 
@@ -80,17 +81,15 @@ class AutodeployCommand extends Command
                         return false;
                     });
                     $errors += 1;
-                    $msg = "Aconteceu algum erro. (✖)";
+                    $msg = "Aconteceu algum erro.";
                     break;
                 }
             
                 $this->task('command: ' . $command, function () {
                     return true;
                 });
-                
             }
 
-            
             if (config('laravelautodeploy.desktop_notification')) {
                 // Create a Notifier
                 $notifier = NotifierFactory::create();
@@ -99,12 +98,14 @@ class AutodeployCommand extends Command
                 $notification = (new Notification())->setTitle('Laravel Autodeploy');
                 
                 if ($errors == 0) {
-                    // $this->notify("Oba!", "Todos os processos foram concluidos!");
-                    $notification->setBody("Todos os processos foram concluidos!");
+                    $notification
+                        ->setBody("Todos os processos foram concluidos!")
+                        ->setIcon(__DIR__ . "/../Resources/icons/icon-success.png");
+                        
                 } else {
-                    // $this->notify("Woops!", $msg,  __DIR__ . "/../Resources/icons/error.png");
-                    //, __DIR__ . "/../Resources/icons/error.png"
-                    $notification->setBody($msg);
+                    $notification
+                        ->setBody($msg)
+                        ->setIcon(__DIR__ . "/../Resources/icons/error.png");
                 }
     
                 $notifier->send($notification);
