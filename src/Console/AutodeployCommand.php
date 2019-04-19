@@ -16,7 +16,7 @@ class AutodeployCommand extends Command
      *
      * @var string
      */
-    protected $name = 'deploy:push {example?} {--to=}';
+    protected $name = 'deploy:push {commit?} {--to=}';
 
     /**
      * The console command description.
