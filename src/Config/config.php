@@ -5,6 +5,10 @@ return [
     'branch' => env('AUTODEPLOY', 'production'),
     'deploy_de' => env('DEPLOY_DE', 'master'),
     'deploy_para' => env('DEPLOY_PARA', 'production'),
+    'errors_log' => [
+        'CONFLICT',
+        'error: '
+    ],
     'commands' => [
         'local' => [
             'git add . && git commit -m "{commit}"',

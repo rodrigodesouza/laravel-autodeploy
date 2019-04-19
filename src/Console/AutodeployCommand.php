@@ -49,11 +49,11 @@ class AutodeployCommand extends Command
         }
 
         if (count(config('laravelautodeploy.commands.local')) > 0) {
-
             $errors = 0;
             $msg    = "";
 
             foreach(config('laravelautodeploy.commands.local') as $command) {
+                $success = true;
                 $prefixo = "cd " . config('laravelautodeploy.folder_git');
                 $command = str_replace("{para}", $this->option('to'), $command);
                 $command = str_replace("{de}", config('laravelautodeploy.deploy_de'), $command);
@@ -61,50 +61,50 @@ class AutodeployCommand extends Command
                 
                 $prefixo .= " && " . $command;
 
-                $shell =  shell_exec($prefixo);
-                // $shell =  "SUCCESS";
-                // $shell =  "CONFLICT";
+                $this->info($command);
+                // $this->task('executando... ' . $command, function () {
+                //     return true;
+                // });
+
+                $shell =  shell_exec($prefixo . " 2>&1");
+                $needles = config('laravelautodeploy.errors_log');
+
+                $t = preg_match_all( '/\\b(' . join( $needles, '|' ) . ')\\b/i', $shell, $m, PREG_OFFSET_CAPTURE );
+                
+                if ($t != 0) {
+                    $this->error($shell);
+                
+                    $errors += 1;
+                    $msg = "Aconteceu algum erro.";
+                    $success = false;
+                    
+                    $this->task('command: ' . $command, function () use ($success) {
+                        return $success;
+                    });
+
+                    break;
+                }
 
                 echo $shell;
 
-                if (strstr($shell, 'CONFLICT')) {
-                    $this->task('Woops! Corrija o conflito e tente novamente.', function () {
-                        return false;
-                    });
-                    $errors += 1;
-                    $msg = "Corrija o conflito e tente novamente.";
-                    break;
-                }
-
-                if (strstr($shell, 'rejected')) {
-                    $this->task('Woops! Aconteceu algum erro.', function () {
-                        return false;
-                    });
-                    $errors += 1;
-                    $msg = "Aconteceu algum erro.";
-                    break;
-                }
-            
-                $this->task('command: ' . $command, function () {
-                    return true;
+                $this->task('command: ' . $command, function () use ($success) {
+                    return $success;
                 });
+                
             }
 
             if (config('laravelautodeploy.desktop_notification')) {
-                // Create a Notifier
                 $notifier = NotifierFactory::create();
-    
-                // Create your notification
                 $notification = (new Notification())->setTitle('Laravel Autodeploy');
                 
                 if ($errors == 0) {
                     $notification
-                        ->setBody("Todos os processos foram concluidos!")
+                        ->setBody("Todos os processos foram concluidos! 😎")
                         ->setIcon(__DIR__ . "/../Resources/icons/icon-success.png");
                         
                 } else {
                     $notification
-                        ->setBody($msg)
+                        ->setBody($msg . " 😱")
                         ->setIcon(__DIR__ . "/../Resources/icons/error.png");
                 }
     
