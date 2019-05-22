@@ -51,6 +51,11 @@ class LaravelAutodeployServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/config.php' => config_path('laravelautodeploy.php'),
         ], 'config');
+        
+        $this->publishes([
+            __DIR__.'/../Config/config.php' => config_path('laravelautodeploy.php'),
+        ], 'autodeploy-config');
+
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'laravelautodeploy'
         );
