@@ -13,7 +13,7 @@ class LaravelAutodeployController extends Controller
 		$input = $request->all();
 			
 		if ($request->isMethod('post')) {
-			
+			echo "Post"; 
 			$branch = config('laravelautodeploy.branch');
 
 			if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $branch) {
