@@ -9,6 +9,7 @@ class AutodeployController
     public function index(Request $request)
     {
         dd($request->all());
+        $path = base_path();
         
         return "
             listing the users
@@ -27,11 +28,21 @@ class AutodeployController
 
     public function webhook(Request $request)
     {
-        if(file_exists(__DIR__ . '/config.php')) {
-            // include __DIR__ . '/config.php';
-            $config = require 'config.php';
-            dd($config);
-            // dd(new Repository($config), $config);
+        $fileConfig = __DIR__ . '/../../Config/config.php';
+        if(file_exists($fileConfig)) {
+            // $config = require $fileConfig;
+
+            $config = new Repository(require $fileConfig);
+            foreach($config->get('commands.servidor') as $command) {
+                dd($command);
+            }
+            
+            dd($config->get('config.name'));
+
+
+            echo "This is coming from config/app.php: <hr>" . $config->get('config.name') . "<br><br><br>";
+            
+
         }
         // echo include 'config.php';
         dd('aqio');

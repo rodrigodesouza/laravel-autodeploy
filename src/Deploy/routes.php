@@ -11,24 +11,24 @@ $router->get('/api/webhookv2', function () {
 });
 $router->get('/foo', function () {
     // 
-    // $config = require __DIR__.'/Controllers/config.php';
-    // dd($config);
+    $config = require __DIR__.'/../Config/config.php';
+    dd($config);
     // Get config using the get method
-    
+    $v = require __DIR__ . '/file.php';
+    dd($v);
     // Get config using ArrayAccess
     // echo "This is coming from config/app.php: <hr>" . $config['app.user'] . "<br><br>";
     // Set a config
     // $config->set('settings.greeting', 'Hello there how are you?');
     // echo "Set using config->set: <hr>" . $config->get('settings.greeting');
-
     return 'hello world!';
 });
-$router->get('bye', function () {
-    return 'goodbye world! SIM';
-});
+
 $router->group(['namespace' => 'Bredi\LaravelAutodeploy\Controllers', 'prefix' => 'autodeploy'], function (Router $router) {
     $router->get('/webhookv2', function(){
-        // die('aqio');
+        $config = require __DIR__.'/../Config/config.php';
+
+        dd($config);
         return 'users';
     });
 

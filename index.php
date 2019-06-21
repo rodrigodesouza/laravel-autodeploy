@@ -26,8 +26,6 @@ require_once __DIR__ . '/../../vendor/autoload.php'; //Develop
 
 use Illuminate\Console\Application;
 
-
-
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;

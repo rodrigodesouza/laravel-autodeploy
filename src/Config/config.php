@@ -23,6 +23,6 @@ return [
             'git fetch --all && git reset --hard origin/{branch}',
         ]
     ],
-    'folder_git' => base_path(),
+    'folder_git' => null,               // base_path(),
     'desktop_notification' => true
 ];
