@@ -1,3 +1,9 @@
+A documentação está incomplete.
+Entre em contato para receber as instruções corretas, se desejar.
+rd7.rodrigo@gmail.com
+
+https://packagist.org/packages/rodrigodesouza/laravel-autodeploy
+
 AUTODEPLOY //branch que deseja baixar atualizações; Padrão: production
 AUTODEPLOY=production, developer, master...
 DEPLOY_DE=//branch de trabalho. padrão: master
