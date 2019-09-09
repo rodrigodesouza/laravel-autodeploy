@@ -20,10 +20,10 @@
     "autoload": {
         "psr-4": {
             "Bredi\\LaravelAutodeploy\\": "src/",
-            "illuminate/routing": "^5.8",
-            "illuminate/events": "^5.8",
-            "illuminate/console": "^5.8",
-            "illuminate/config": "^5.8"
+            "illuminate\\routing": "^5.8",
+            "illuminate\\events": "^5.8",
+            "illuminate\\console": "^5.8",
+            "illuminate\\config": "^5.8"
         }
     },
     "require": {
